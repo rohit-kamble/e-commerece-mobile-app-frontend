@@ -5,7 +5,6 @@ import { Button } from 'react-native-paper';
 
 export default function ProductCard({ stock, name, price, image, id, addToCardHandler, idx }) {
   const navigate = useNavigation();
-  console.log('deatail', image);
   return (
     <TouchableOpacity activeOpacity={1} onPress={() => navigate.navigate('productdetails', { id })}>
       <View
@@ -22,7 +21,7 @@ export default function ProductCard({ stock, name, price, image, id, addToCardHa
       >
         <Image
           source={{
-            uri: 'https://res.cloudinary.com/dbr01dzeu/image/upload/v1707910700/kds4cpbfhstioihsjca7.svg',
+            uri: image,
           }}
           style={{
             width: '100%',

@@ -1,29 +1,28 @@
 import axios from 'axios';
 import { server } from '../store';
 
-export const getAllProducts = (formData) => async (dispatch) => {
-  try {
-    dispatch({
-      type: 'getAllProductsRequest',
-    });
-    console.log('url', `${server}/product/all`);
-    const { data } = await axios.get(`${server}/product/all`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-      withCredentials: true,
-    });
-    dispatch({
-      type: 'getAllProductsSuccess',
-      payload: data.products,
-    });
-  } catch (error) {
-    dispatch({
-      type: 'getAllProductsFail',
-      payload: error.response?.data?.message,
-    });
-  }
-};
+export const getAllProducts =
+  (keywords = '', category = '') =>
+  async (dispatch) => {
+    try {
+      let response = null;
+      dispatch({
+        type: 'getAllProductsRequest',
+      });
+      response = await axios.get(`${server}/product/all?keyword=${keywords}&category=${category}`, {
+        withCredentials: true,
+      });
+      dispatch({
+        type: 'getAllProductsSuccess',
+        payload: response.data.products,
+      });
+    } catch (error) {
+      dispatch({
+        type: 'getAllProductsFail',
+        payload: error.response.data.message,
+      });
+    }
+  };
 export const getAdminProducts = (formData) => async (dispatch) => {
   try {
     dispatch({

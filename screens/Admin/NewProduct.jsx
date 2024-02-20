@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 import SelectComponent from '../../components/SelectComponent';
 
 export default function NewProduct({ navigation, route }) {
-  console.log('route==1', route);
   const [id] = useState(route.params?.id);
   const [name, setName] = useState('');
   const [image, setImage] = useState('');

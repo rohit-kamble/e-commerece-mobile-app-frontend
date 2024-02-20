@@ -2,6 +2,8 @@ import { useSelector } from 'react-redux';
 import Toast from 'react-native-toast-message';
 import { useEffect } from 'react';
 import { loadUser } from '../redux/action/userAction.js';
+import axios from 'axios';
+import { server } from '../redux/store.js';
 
 export const useMessageAndErrorFromUser = (navigation, navigateTo = 'login', dispatch) => {
   const { loading, message, error, isAuthenticated } = useSelector((state) => state.user);
@@ -10,7 +12,6 @@ export const useMessageAndErrorFromUser = (navigation, navigateTo = 'login', dis
       dispatch({
         type: 'clearError',
       });
-      console.log('error', error);
       Toast.show({
         type: 'error',
         text1: error,
@@ -42,7 +43,6 @@ export const useMessageAndErrorFromOther = ({ navigation, navigateTo, dispatch, 
       dispatch({
         type: 'clearError',
       });
-      console.log('error', error);
       Toast.show({
         type: 'error',
         text1: error,
@@ -62,4 +62,22 @@ export const useMessageAndErrorFromOther = ({ navigation, navigateTo, dispatch, 
   }, [error, message, dispatch]);
 
   return { loading, loadingPic: loading };
+};
+
+export const useSetCategories = (setCategories, isFocused) => {
+  useEffect(() => {
+    axios
+      .get(`${server}/product/categories`)
+      .then((res) => {
+        setCategories(res.data.categories);
+      })
+      .catch((error) => {
+        Toast.show({
+          type: 'error',
+          text1: error.response.data.message,
+        });
+      });
+  }, [isFocused]);
+
+  // return { loading, loadingPic: loading };
 };

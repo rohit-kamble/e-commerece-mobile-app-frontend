@@ -6,7 +6,6 @@ export const updatePassword = (oldPassword, newPassword) => async (dispatch) => 
     dispatch({
       type: 'updatePasswordRequest',
     });
-    console.log('Hii Call');
     const { data } = await axios.put(
       `${server}/user/change-password`,
       {
@@ -25,7 +24,6 @@ export const updatePassword = (oldPassword, newPassword) => async (dispatch) => 
       payload: data.message,
     });
   } catch (error) {
-    console.log('error=', error);
     dispatch({
       type: 'updatePasswordFail',
       payload: error.response?.data?.message || 'something wrong',
@@ -40,7 +38,6 @@ export const updateProfile =
       dispatch({
         type: 'updateProfileRequest',
       });
-      console.log('Hii Call');
       const { data } = await axios.put(
         `${server}/user/update-profile`,
         { name, email, address, city, country, pinCode },
@@ -57,7 +54,6 @@ export const updateProfile =
         payload: data.message,
       });
     } catch (error) {
-      console.log('error=', error);
       dispatch({
         type: 'updateProfileFail',
         payload: error.response?.data?.message || 'something wrong',

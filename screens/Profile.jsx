@@ -17,13 +17,11 @@ const defaultimg =
 export default function Profile({ navigation, route }) {
   const { user } = useSelector((state) => state.user);
   const isFoucs = useIsFocused();
-  console.log('==user==', user);
   const [avatar, setAvatar] = useState(user ? user.avatar.url : defaultimg);
   const dispatch = useDispatch();
   const { loading } = useMessageAndErrorFromUser(navigation, 'login', dispatch);
 
   const logoutHandler = () => {
-    console.log('logout');
     dispatch(logout());
   };
 
@@ -52,7 +50,6 @@ export default function Profile({ navigation, route }) {
   const { loadingPic } = useMessageAndErrorFromOther({ dispatch, fun: loadUser });
   useEffect(() => {
     if (route.params?.image) {
-      console.log('route-params', route.params);
       setAvatar(route.params?.image);
       //dispatch update
       const myForm = new FormData();

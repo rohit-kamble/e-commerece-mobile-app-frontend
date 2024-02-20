@@ -20,7 +20,7 @@ const categories = [
 ];
 export default function Categories() {
   const deleteHandler = () => {
-    console.log('call');
+    // console.log('call');
   };
   const [category, setCatgory] = useState('');
   const submitCategory = () => {};

@@ -32,7 +32,7 @@ export const cartItems = [
 export default function Cart() {
   const navigate = useNavigation();
   const incrementtHandler = (id, quantity, stock) => {
-    console.log(id, quantity, stock);
+    // console.log(id, quantity, stock);
   };
 
   const decrementHandler = (id, quantity) => {};

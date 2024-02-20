@@ -26,7 +26,7 @@ export default function AdminDashboard({ navigation }) {
     }
   };
   const deleteHandler = (id) => {
-    console.log('id deleted item', id);
+    // console.log('id deleted item', id);
   };
   return (
     <View style={defaultStyle}>

@@ -41,7 +41,6 @@ const ProductDetails = ({
   };
 
   const addToCartHandler = () => {
-    console.log('a');
     if (stock === 0)
       return Toast.show({
         type: 'error',

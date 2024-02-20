@@ -9,7 +9,6 @@ import { updateProfile } from '../redux/action/otherAction';
 
 export default function UpdateProfile({ navigation }) {
   const { user } = useSelector((state) => state.user);
-  console.log('user==', user?.pinCode);
   const [avatar, setAvatar] = useState('');
   const [name, setName] = useState(user?.name);
   const [email, setEmail] = useState(user?.email);

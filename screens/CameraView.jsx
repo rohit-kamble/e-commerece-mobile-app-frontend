@@ -17,7 +17,6 @@ export default function CamerView({ navigation, route }) {
       aspect: [1, 1],
       quality: 1,
     });
-    console.log('datt======', data.assets[0].uri, route.params.signup);
     if (route.params?.newProduct) {
       navigation.navigate('newproduct', {
         image: data.assets[0].uri,
@@ -34,7 +33,6 @@ export default function CamerView({ navigation, route }) {
       });
     }
     if (route.params?.signup) {
-      console.log('signnnnnnnn');
       navigation.navigate('signup', {
         image: data.assets[0].uri,
       });
@@ -65,7 +63,6 @@ export default function CamerView({ navigation, route }) {
       });
     }
     if (route.params?.signup) {
-      console.log('data.url====', data.uri);
       navigation.navigate('signup', {
         image: data.uri,
       });

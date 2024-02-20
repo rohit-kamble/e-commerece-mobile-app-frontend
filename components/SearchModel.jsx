@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from '@react-navigation/native';
 import {
   Platform,
   StatusBar,
@@ -9,41 +9,36 @@ import {
   TouchableOpacity,
   Image,
   BackHandler,
-} from "react-native";
-import { colors } from "../styles/styles";
-import { Headline, Searchbar } from "react-native-paper";
-import { useEffect } from "react";
+} from 'react-native';
+import { colors } from '../styles/styles';
+import { Headline, Searchbar } from 'react-native-paper';
+import { useEffect } from 'react';
 
-export default function SearchModel({
-  searchgQuery,
-  setActiveSearch,
-  products,
-  setSearchQuery,
-}) {
+export default function SearchModel({ searchgQuery, setActiveSearch, products, setSearchQuery }) {
   const navigate = useNavigation();
   const backAction = () => {
-    setSearchQuery("");
+    setSearchQuery('');
     setActiveSearch(false);
     return true; // prevent to close app
   };
 
   useEffect(() => {
-    BackHandler.addEventListener("hardwareBackPress", backAction);
+    BackHandler.addEventListener('hardwareBackPress', backAction);
     return () => {
-      BackHandler.removeEventListener("hardwareBackPress", backAction);
+      BackHandler.removeEventListener('hardwareBackPress', backAction);
     };
   }, []);
   return (
     <View
       style={{
-        width: "100%",
-        height: "100%",
-        position: "absolute",
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
         top: 0,
         zIndex: 100,
         backgroundColor: colors.color2,
         padding: 30,
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
       }}
     >
       <SafeAreaView>
@@ -64,13 +59,11 @@ export default function SearchModel({
           >
             {products.map((item) => (
               <SearchItem
-                key={item._id}
-                imgSrc={item.imgSrc[0]?.url}
-                name={item.name}
-                price={item.price}
-                handler={() =>
-                  navigate.navigate("productdetails", { id: item._id })
-                }
+                key={item?._id}
+                imgSrc={item?.images[0]?.url}
+                name={item?.name}
+                price={item?.price}
+                handler={() => navigate.navigate('productdetails', { id: item?._id })}
               />
             ))}
           </View>
@@ -89,10 +82,10 @@ const SearchItem = ({ handler, imgSrc, name, price }) => {
           borderRadius: 10,
           backgroundColor: colors.color2,
           elevation: 5,
-          width: "100%",
-          alignItems: "center",
-          justifyContent: "flex-end",
-          flexDirection: "row",
+          width: '100%',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          flexDirection: 'row',
           marginVertical: 30,
         }}
       >
@@ -103,8 +96,8 @@ const SearchItem = ({ handler, imgSrc, name, price }) => {
           style={{
             width: 80,
             height: 80,
-            position: "absolute",
-            resizeMode: "contain",
+            position: 'absolute',
+            resizeMode: 'contain',
             top: -15,
             left: 10,
             borderTopLeftRadius: 20,
@@ -113,7 +106,7 @@ const SearchItem = ({ handler, imgSrc, name, price }) => {
         />
         <View
           style={{
-            width: "80%",
+            width: '80%',
             paddingHorizontal: 30,
           }}
         >
@@ -121,7 +114,7 @@ const SearchItem = ({ handler, imgSrc, name, price }) => {
           <Headline
             numberOfLines={1}
             style={{
-              fontWeight: "900",
+              fontWeight: '900',
             }}
           >
             ${price}

@@ -43,9 +43,7 @@ export default function SignUp({ navigation, route }) {
 
   const disabledBtn = !name || !email || !address || !city || !country || !pincode;
   useEffect(() => {
-    console.log('route', route.params);
     if (route.params?.image) {
-      console.log('route', route);
       setAvatar(route.params?.image);
     }
   }, [route.params]);

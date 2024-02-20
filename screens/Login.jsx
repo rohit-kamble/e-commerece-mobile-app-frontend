@@ -14,7 +14,6 @@ export default function Login({ navigation }) {
   const dispatch = useDispatch();
   const { loading } = useMessageAndErrorFromUser(navigation, 'profile', dispatch);
   const submitHandler = () => {
-    console.log('call');
     dispatch(login(email, password));
   };
 

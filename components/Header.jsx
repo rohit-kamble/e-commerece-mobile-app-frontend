@@ -9,7 +9,7 @@ export default function Header({ isBack, emptyCart = false }) {
   const emptyCartHandler = () => {
     navigate.navigate('cart');
   };
-  console.log('route---', route.name);
+
   return (
     <View style={{ height: 40 }}>
       {isBack && (

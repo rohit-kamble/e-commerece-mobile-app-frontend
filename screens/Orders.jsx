@@ -60,7 +60,7 @@ export default function Orders() {
                   orderedOn={item.createdAt}
                   status={item.orderStatus}
                   paymentMethod={item.paymentMethod}
-                  updateHandler={() => console.log('')}
+                  updateHandler={() => {}}
                   admin={true}
                 />
               ))
