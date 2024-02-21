@@ -24,7 +24,7 @@ export const productReducer = createReducer({ products: [], product: {} }, (buil
     })
     .addCase('getProductDetailsSuccess', (state, action) => {
       state.loading = false;
-      state.products = action.payload;
+      state.product = action.payload;
     })
     .addCase('getAllProductsFail', (state, action) => {
       state.loading = false;

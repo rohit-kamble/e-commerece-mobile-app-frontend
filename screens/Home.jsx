@@ -10,29 +10,52 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllProducts } from '../redux/action/productActions';
 import { useIsFocused } from '@react-navigation/native';
 import { useSetCategories } from '../utils/customHook';
+import Toast from 'react-native-toast-message';
 
 export default function Home() {
   const [categoriesItem, setCategories] = useState([]);
   const [activeSearch, setActiveSearch] = useState(false);
   const [searchgQuery, setSearchQuery] = useState('');
+  const dispatch = useDispatch();
   const [activeCategory, setActiveCategory] = useState(
     categoriesItem[0]?._id ? categoriesItem[0]?._id : ''
   );
-  const addToCardHandler = (id) => {
-    // console.log('Add to cart', id);
+  const addToCardHandler = ({ id, name, price, image, stock }) => {
+    if (stock === 0)
+      return Toast.show({
+        type: 'error',
+        text1: 'Out of Stock',
+      });
+    dispatch({
+      type: 'addToCart',
+      payload: {
+        product: id,
+        name,
+        price,
+        image,
+        stock,
+        quantity: 1,
+      },
+    });
+    Toast.show({
+      type: 'success',
+      text1: 'Added to Cart',
+    });
   };
   const { products } = useSelector((state) => state.products);
   const { user } = useSelector((state) => state.user);
   const isFocused = useIsFocused();
   useSetCategories(setCategories, isFocused);
-  const dispatch = useDispatch();
+
   useEffect(() => {
     const timeOut = setTimeout(() => {
       dispatch(getAllProducts(searchgQuery, activeCategory));
     }, 500);
     return () => clearTimeout(timeOut);
   }, [dispatch, searchgQuery, activeCategory, isFocused]);
-
+  useEffect(() => {
+    if (categoriesItem.length > 0) setActiveCategory(categoriesItem[0]?._id);
+  }, [categoriesItem[0]?._id]);
   return (
     <>
       {activeSearch && (
@@ -99,7 +122,7 @@ export default function Home() {
                 >
                   <Text
                     style={{
-                      color: activeCategory === item._id ? colors.color2 : 'gray',
+                      color: activeCategory === item._id ? colors.color5 : 'gray',
                     }}
                   >
                     {item.category}
@@ -112,18 +135,19 @@ export default function Home() {
         {/* Products */}
         <View style={{ flex: 1 }}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {products.map((item, idx) => (
-              <ProductCard
-                stock={item?.stock}
-                name={item?.name}
-                price={item?.price}
-                image={item?.images[0].url}
-                addToCardHandler={addToCardHandler}
-                id={item?._id}
-                key={item?._id}
-                idx={idx}
-              />
-            ))}
+            {products.length > 0 &&
+              products.map((item, idx) => (
+                <ProductCard
+                  stock={item?.stock}
+                  name={item?.name}
+                  price={item?.price}
+                  image={item?.images[0].url}
+                  addToCardHandler={addToCardHandler}
+                  id={item?._id}
+                  key={item?._id}
+                  idx={idx}
+                />
+              ))}
           </ScrollView>
         </View>
       </View>

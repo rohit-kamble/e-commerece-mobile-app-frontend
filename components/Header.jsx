@@ -2,12 +2,16 @@ import { Avatar } from 'react-native-paper';
 import { View, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { colors } from '../styles/styles';
+import { useDispatch } from 'react-redux';
 
 export default function Header({ isBack, emptyCart = false }) {
   const navigate = useNavigation();
+  const dispatch = useDispatch();
   const route = useRoute();
   const emptyCartHandler = () => {
-    navigate.navigate('cart');
+    dispatch({
+      type: 'clearCart',
+    });
   };
 
   return (
@@ -40,7 +44,7 @@ export default function Header({ isBack, emptyCart = false }) {
           right: 20,
           zIndex: 10,
         }}
-        onPress={() => (emptyCart ? emptyCartHandler : navigate.navigate('cart'))}
+        onPress={() => (emptyCart ? emptyCartHandler() : navigate.navigate('cart'))}
       >
         <Avatar.Icon
           style={{

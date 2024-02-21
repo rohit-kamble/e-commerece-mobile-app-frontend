@@ -1,10 +1,13 @@
 import { View, StyleSheet, Dimensions, Image, Text, TouchableOpacity } from 'react-native';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { colors, defaultStyle } from '../styles/styles';
 import Header from './Header';
 import Carousel from 'react-native-snap-carousel';
 import { Avatar, Button } from 'react-native-paper';
 import Toast from 'react-native-toast-message';
+import { useSelector, useDispatch } from 'react-redux';
+import { useIsFocused } from '@react-navigation/native';
+import { getProductDetails } from '../redux/action/productActions.js';
 
 const SLIDER_WIDTH = Dimensions.get('window').width;
 const ITEM_WIDTH = SLIDER_WIDTH;
@@ -14,23 +17,14 @@ const ProductDetails = ({
     params: { id },
   },
 }) => {
-  const name = 'Mack book';
-  const price = 5661;
-  const description = 'prdouct Info';
-  const stock = 2;
+  const isFocused = useIsFocused();
+  const dispatch = useDispatch();
   const isCarousal = useRef(null);
-  const [quantity, setQuntity] = useState(1);
-  const images = [
-    {
-      id: 1,
-      url: 'https://i5.walmartimages.com/asr/35b47efa-88ba-46ab-9faa-71096e67aed7.a7275eab204a8d8dc3d7949f0dbe74cc.jpeg',
-    },
-    {
-      id: 2,
-      url: 'https://images-na.ssl-images-amazon.com/images/G/02/aplusautomation/vendorimages/0b925aaf-0920-4019-a78e-dbe23cc1d1fa.jpg._CB536181688_.jpg',
-    },
-  ];
 
+  const {
+    product: { name, price, stock, description, images, quantity: qty },
+  } = useSelector((state) => state.products);
+  const [quantity, setQuntity] = useState(qty || 1);
   const incrementQty = () => {
     if (stock <= quantity) return false;
     setQuntity((prv) => prv + 1);
@@ -46,13 +40,26 @@ const ProductDetails = ({
         type: 'error',
         text1: 'Out of Stock',
       });
-    else {
-      Toast.show({
-        type: 'success',
-        text1: 'Added to Cart',
-      });
-    }
+    dispatch({
+      type: 'addToCart',
+      payload: {
+        product: id,
+        name,
+        price,
+        image: images[0]?.url,
+        stock,
+        quantity: quantity,
+      },
+    });
+    Toast.show({
+      type: 'success',
+      text1: 'Added to Cart',
+    });
   };
+
+  useEffect(() => {
+    dispatch(getProductDetails(id));
+  }, [dispatch, id, isFocused]);
   return (
     <View
       style={{

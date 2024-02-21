@@ -1,17 +1,21 @@
 import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { colors, defaultStyle } from '../styles/styles';
 import Header from '../components/Header';
-import { cartItems } from '../screens/Cart';
+// import { cartItems } from '../screens/Cart';
 import ConfirmOrderItem from '../components/ConfirmOrderItem';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from 'react-native-paper';
+import { useSelector } from 'react-redux';
+import { State } from 'react-native-gesture-handler';
 
 export default function ConfirmOrder() {
-  const itemPrice = 4000;
-  const shippingPrice = 200;
-  const tax = 0.18 * itemPrice;
+  const { cartItem } = useSelector((state) => state.cart);
+  const itemPrice = cartItem?.reduce((prev, curr) => prev + curr.quantity * curr.price, 0);
+  const shippingPrice = itemPrice > 10000 ? 0 : 200;
+  const tax = Number((0.18 * itemPrice).toFixed());
   const totalAmount = itemPrice + shippingPrice + tax;
   const navigate = useNavigation();
+
   return (
     <View style={defaultStyle}>
       <Header isBack={true} />
@@ -27,7 +31,7 @@ export default function ConfirmOrder() {
         }}
       >
         <ScrollView>
-          {cartItems.map((item) => (
+          {cartItem.map((item) => (
             <ConfirmOrderItem key={item.id} item={item} />
           ))}
         </ScrollView>

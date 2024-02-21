@@ -3,8 +3,17 @@ import { colors } from '../styles/styles';
 import { Avatar } from 'react-native-paper';
 
 export default function Cartitem({ item }) {
-  const { name, index, image, price, quantity, incrementtHandler, decrementHandler, stock, id } =
-    item;
+  const {
+    name,
+    index,
+    image,
+    price,
+    quantity,
+    incrementtHandler,
+    decrementHandler,
+    stock,
+    product: id,
+  } = item;
   return (
     <View
       style={{
@@ -59,7 +68,7 @@ export default function Cartitem({ item }) {
           alignSelf: 'center',
         }}
       >
-        <TouchableOpacity onPress={() => decrementHandler(id, quantity)}>
+        <TouchableOpacity onPress={() => decrementHandler(id, name, price, image, stock, quantity)}>
           <Avatar.Icon
             icon={'minus'}
             size={20}
@@ -72,7 +81,9 @@ export default function Cartitem({ item }) {
           />
         </TouchableOpacity>
         <Text style={styles.qtyText}>{quantity}</Text>
-        <TouchableOpacity onPress={() => incrementtHandler(id, quantity, stock)}>
+        <TouchableOpacity
+          onPress={() => incrementtHandler(id, name, price, image, stock, quantity)}
+        >
           <Avatar.Icon
             icon={'plus'}
             size={20}

@@ -51,20 +51,17 @@ export const getProductDetails = (id) => async (dispatch) => {
     dispatch({
       type: 'getProductDetailsRequest',
     });
-    const { data } = await axios.put(`${server}/product/single/${id}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+    const { data } = await axios.get(`${server}/product/single/${id}`, {
       withCredentials: true,
     });
     dispatch({
       type: 'getProductDetailsSuccess',
-      payload: data.products,
+      payload: data?.products,
     });
   } catch (error) {
     dispatch({
       type: 'getProductDetailsFail',
-      payload: error.response.data.message,
+      payload: error.response?.data?.message,
     });
   }
 };

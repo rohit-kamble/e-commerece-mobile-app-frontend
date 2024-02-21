@@ -9,8 +9,8 @@ export default function ProductCard({ stock, name, price, image, id, addToCardHa
     <TouchableOpacity activeOpacity={1} onPress={() => navigate.navigate('productdetails', { id })}>
       <View
         style={{
-          elevation: 5,
-          width: 220,
+          elevation: 15,
+          width: 250,
           alignItems: 'center',
           justifyContent: 'space-between',
           margin: 20,
@@ -28,7 +28,7 @@ export default function ProductCard({ stock, name, price, image, id, addToCardHa
             height: 200,
             resizeMode: 'contain',
             position: 'absolute',
-            left: 50,
+            left: 30,
             top: 105,
           }}
         />
@@ -46,6 +46,7 @@ export default function ProductCard({ stock, name, price, image, id, addToCardHa
               color: idx % 2 === 0 ? colors.color2 : colors.colors3,
               fontSize: 25,
               fontWeight: '300',
+              width: '60%',
             }}
           >
             {name}
@@ -71,7 +72,7 @@ export default function ProductCard({ stock, name, price, image, id, addToCardHa
           }}
         >
           <Button
-            onPress={() => addToCardHandler(id, stock)}
+            onPress={() => addToCardHandler({ id, name, price, image, stock })}
             textColor={idx % 2 === 0 ? colors.color1 : colors.colors2}
           >
             Add to cart
