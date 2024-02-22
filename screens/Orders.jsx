@@ -4,40 +4,19 @@ import Header from '../components/Header';
 import Loader from '../components/Loader';
 import { Headline } from 'react-native-paper';
 import OrderItem from '../components/OrderItem';
-const orders = [
-  {
-    _id: 'ss',
-    shippingInfo: {
-      address: 'b/2 paritosh',
-      city: 'ambernath',
-      country: 'india',
-    },
-    createdAt: 'jdknjld',
-    orderStatus: 'processing',
-    paymentMethod: 'COD',
-    totalAmount: 20000,
-  },
-  {
-    _id: 'ss2',
-    shippingInfo: {
-      address: 'b/2 paritosh',
-      city: 'ambernath',
-      country: 'india',
-    },
-    createdAt: 'jdknjld',
-    orderStatus: 'processing',
-    paymentMethod: 'COD',
-    totalAmount: 20000,
-  },
-];
+import { useGetOrders } from '../utils/customHook.js';
+import { useIsFocused } from '@react-navigation/native';
+
 export default function Orders() {
-  const loading = false;
+  const isFocused = useIsFocused();
+  const { loading, orders } = useGetOrders(isFocused);
+
   return (
     <View style={[defaultStyle, { backgroundColor: colors.colors5 }]}>
       <Header isBack={true} />
 
       <View style={{ marginBottom: 20, paddingTop: 70 }}>
-        <Text style={styles.heading}>Sign Up</Text>
+        <Text style={styles.heading}>Orders</Text>
       </View>
       {loading ? (
         <Loader />
@@ -61,7 +40,7 @@ export default function Orders() {
                   status={item.orderStatus}
                   paymentMethod={item.paymentMethod}
                   updateHandler={() => {}}
-                  admin={true}
+                  admin={false}
                 />
               ))
             ) : (

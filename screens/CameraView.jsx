@@ -4,11 +4,15 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import { Avatar } from 'react-native-paper';
 import { colors, defaultStyle } from '../styles/styles';
 import * as imagePicker from 'expo-image-picker';
+import { useSelector } from 'react-redux';
 
 export default function CamerView({ navigation, route }) {
   const [hasPermission, setHasPermisson] = useState(null);
   const [type, setType] = useState(CameraType.back);
   const [cameras, setCamera] = useState(null);
+
+  const { product } = useSelector((state) => state.products);
+  console.log('cameravire==', product);
   const openImagePicker = async () => {
     const permissionResult = await imagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted === false) return alert('Permisson to access gallery is required');

@@ -13,6 +13,7 @@
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
     "@reduxjs/toolkit": "^2.2.1",
+    "@stripe/stripe-react-native": "^0.37.0",
     "axios": "^1.6.7",
     "eslint": "^7.32.0 || ^8.2.0",
     "eslint-config-prettier": "^9.1.0",

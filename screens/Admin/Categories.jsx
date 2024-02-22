@@ -4,28 +4,28 @@ import Header from '../../components/Header';
 import CategoryCard from '../../components/CategoryCard';
 import { TextInput, Button } from 'react-native-paper';
 import { useState } from 'react';
-const categories = [
-  {
-    name: 'laptop',
-    _id: 'deded',
-  },
-  {
-    name: 'mobile',
-    _id: 'deddsdsed',
-  },
-  {
-    name: 'electronic',
-    _id: 'csdsd',
-  },
-];
-export default function Categories() {
-  const deleteHandler = () => {
+import { useMessageAndErrorFromOther, useSetCategories } from '../../utils/customHook';
+import { useIsFocused } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { addCategory, deleteCategory } from '../../redux/action/otherAction';
+
+export default function Categories({ navigation }) {
+  const [category, setCatgory] = useState('');
+  const [categories, setCategories] = useState([]);
+  const isFocused = useIsFocused();
+  const dispatch = useDispatch();
+  useSetCategories(setCategories, isFocused);
+  const { loading } = useMessageAndErrorFromOther(dispatch, navigation, 'adminpannel');
+  const deleteHandler = (id) => {
+    dispatch(deleteCategory(id));
     // console.log('call');
   };
-  const [category, setCatgory] = useState('');
-  const submitCategory = () => {};
 
-  const loading = false;
+  const submitCategory = () => {
+    dispatch(addCategory(category));
+  };
+
+  // const loading = false;
 
   return (
     <View style={{ ...defaultStyle, backgroundColor: colors.colors5 }}>
@@ -43,7 +43,7 @@ export default function Categories() {
         >
           {categories.map((item) => (
             <CategoryCard
-              name={item.name}
+              name={item.category}
               id={item._id}
               key={item._id}
               deleteHandler={deleteHandler}
@@ -55,8 +55,8 @@ export default function Categories() {
         <TextInput
           style={{ ...inputStyling, width: '100%' }}
           value={category}
-          onChange={setCatgory}
-          placeholder="category"
+          onChangeText={setCatgory}
+          placeholder="Add category"
         />
         <Button
           textColor={colors.color2}

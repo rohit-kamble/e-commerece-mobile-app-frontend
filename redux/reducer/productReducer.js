@@ -28,16 +28,38 @@ export const productReducer = createReducer({ products: [], product: {} }, (buil
     })
     .addCase('getAllProductsFail', (state, action) => {
       state.loading = false;
-      state.message = action.payload;
+      state.error = action.payload;
     })
     .addCase('getAdminProductFail', (state, action) => {
       state.loading = false;
-      state.message = action.payload;
+      state.error = action.payload;
     })
     .addCase('getProductDetailsFail', (state, action) => {
       state.loading = false;
-      state.message = action.payload;
+      state.error = action.payload;
     });
+  // .addCase('deleteProductImagesRequest', (state) => {
+  //   state.loading = true;
+  // })
+  // .addCase('deleteProductImagesSuccess', (state, action) => {
+  //   state.loading = false;
+  //   state.message = action.payload;
+  // })
+  // .addCase('deleteProductImagesFail', (state, action) => {
+  //   state.loading = false;
+  //   state.error = action.payload;
+  // })
+  // .addCase('updateProductImagesRequest', (state) => {
+  //   state.loading = true;
+  // })
+  // .addCase('updateProductImagesSuccess', (state, action) => {
+  //   state.loading = false;
+  //   state.message = action.payload;
+  // })
+  // .addCase('updateProductImagesFail', (state, action) => {
+  //   state.loading = false;
+  //   state.error = action.payload;
+  // });
   builder.addCase('clearError', (state) => {
     state.error = null;
   });

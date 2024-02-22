@@ -26,7 +26,11 @@ const ProductDetails = ({
   } = useSelector((state) => state.products);
   const [quantity, setQuntity] = useState(qty || 1);
   const incrementQty = () => {
-    if (stock <= quantity) return false;
+    if (stock <= quantity)
+      return Toast.show({
+        type: 'error',
+        text1: 'Maximum value added',
+      });
     setQuntity((prv) => prv + 1);
   };
   const decrementQty = () => {

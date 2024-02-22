@@ -19,7 +19,7 @@ export default function UpdateProfile({ navigation }) {
   //   const loading = true;
 
   const dispatch = useDispatch();
-  const { loading } = useMessageAndErrorFromOther({ dispatch, navigation, navigateTo: 'profile' });
+  const { loading } = useMessageAndErrorFromOther(dispatch, navigation, 'profile');
   const submitHandler = () => {
     dispatch(updateProfile({ name, email, address, city, country, pinCode }));
   };

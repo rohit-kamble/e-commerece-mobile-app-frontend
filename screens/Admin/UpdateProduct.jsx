@@ -3,47 +3,57 @@ import { defaultStyle, colors, inputStyling } from '../../styles/styles';
 import Header from '../../components/Header';
 import Loader from '../../components/Loader';
 import { Button, TextInput } from 'react-native-paper';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SelectComponent from '../../components/SelectComponent';
-
-const images = [
-  {
-    url: 'https://create.microsoft.com/_next/image?url=https%3A%2F%2Fdsgrcdnblobprod5u3.azureedge.net%2Fcmsassets%2FTransparentLogo-HERO.webp&w=1920&q=75',
-    _id: 'efefef',
-  },
-  {
-    url: 'https://create.microsoft.com/_next/image?url=https%3A%2F%2Fdsgrcdnblobprod5u3.azureedge.net%2Fcmsassets%2FTransparentLogo-HERO.webp&w=1920&q=75',
-    _id: 'efefefeef',
-  },
-];
+import { useIsFocused } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { useMessageAndErrorFromOther } from '../../utils/customHook';
+import { getProductDetails } from '../../redux/action/productActions';
+import { useSetCategories } from '../../utils/customHook';
+import { updateProduct } from '../../redux/action/otherAction';
 
 export default function UpdateProduct({ navigation, route }) {
+  const isFocused = useIsFocused();
+  const { product, loading } = useSelector((state) => state.products);
+  // console.log('****product', route);
+  const dispatch = useDispatch();
+  const [visible, setVisible] = useState(false);
   const [id] = useState(route.params.id);
+  // console.log('--id--', id);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [stock, setStock] = useState('');
-  const [category, setCategory] = useState('Laptop');
+  const [category, setCategory] = useState('');
   const [categoryId, setCategoryId] = useState('');
-  const [categories, setCategories] = useState([
-    {
-      _id: 'ddwdwr',
-      category: 'Laptop',
-    },
-    {
-      _id: 'fefefve',
-      category: 'Mobile',
-    },
-    {
-      _id: 'ddwdwdwdr',
-      category: 'Pen',
-    },
-  ]);
-  const [visible, setVisible] = useState(false);
-  const submitHandler = () => {};
+  const [categories, setCategories] = useState([]);
+  useSetCategories(setCategories, isFocused);
+  // const [visible, setVisible] = useState(false);
+  const { loading: otherLoading } = useMessageAndErrorFromOther(
+    dispatch,
+    navigation,
+    'adminpannel'
+  );
 
-  const loading = false;
-  const otherLoading = true;
+  const submitHandler = () => {
+    dispatch(updateProduct(id, name, description, price, stock, categoryId));
+  };
+
+  useEffect(() => {
+    dispatch(getProductDetails(id));
+  }, [dispatch, id, isFocused]);
+  // const loading = false;
+  // const otherLoading = true;
+  useEffect(() => {
+    if (product) {
+      setName(product.name);
+      setDescription(product.description);
+      setPrice(product.price?.toString());
+      setStock(product.stock?.toString());
+      setCategory(product?.category?.category);
+      setCategoryId(product?.category?.id);
+    }
+  }, [product]);
   return (
     <>
       <View style={{ ...defaultStyle, backgroundColor: colors.colors5 }}>
@@ -73,7 +83,7 @@ export default function UpdateProduct({ navigation, route }) {
                 onPress={() =>
                   navigation.navigate('productimages', {
                     id,
-                    images: images,
+                    images: product.images,
                   })
                 }
               >

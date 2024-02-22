@@ -11,6 +11,7 @@ import { State } from 'react-native-gesture-handler';
 export default function ConfirmOrder() {
   const { cartItem } = useSelector((state) => state.cart);
   const itemPrice = cartItem?.reduce((prev, curr) => prev + curr.quantity * curr.price, 0);
+  // console.log(cartItem);
   const shippingPrice = itemPrice > 10000 ? 0 : 200;
   const tax = Number((0.18 * itemPrice).toFixed());
   const totalAmount = itemPrice + shippingPrice + tax;
@@ -32,7 +33,7 @@ export default function ConfirmOrder() {
       >
         <ScrollView>
           {cartItem.map((item) => (
-            <ConfirmOrderItem key={item.id} item={item} />
+            <ConfirmOrderItem key={item.product} item={item} />
           ))}
         </ScrollView>
       </View>
@@ -41,7 +42,7 @@ export default function ConfirmOrder() {
       <PriceTag heading={'Tax'} value={tax} />
       <PriceTag heading={'Total'} value={totalAmount} />
       <TouchableOpacity
-        onPress={() => navigate.navigate('payment', itemPrice, shippingPrice, tax, totalAmount)}
+        onPress={() => navigate.navigate('payment', { itemPrice, shippingPrice, tax, totalAmount })}
       >
         <Button
           style={{
@@ -63,6 +64,7 @@ export default function ConfirmOrder() {
 const PriceTag = ({ heading, value }) => {
   return (
     <View
+      key={value + heading}
       style={{
         flexDirection: 'row',
         justifyContent: 'space-between',

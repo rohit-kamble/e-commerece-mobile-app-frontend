@@ -141,7 +141,7 @@ export default function Home() {
                   stock={item?.stock}
                   name={item?.name}
                   price={item?.price}
-                  image={item?.images[0].url}
+                  image={item?.images[0]?.url}
                   addToCardHandler={addToCardHandler}
                   id={item?._id}
                   key={item?._id}

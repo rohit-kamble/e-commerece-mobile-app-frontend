@@ -47,7 +47,7 @@ export default function Profile({ navigation, route }) {
     }
   };
 
-  const { loadingPic } = useMessageAndErrorFromOther({ dispatch, fun: loadUser });
+  const { loadingPic } = useMessageAndErrorFromOther(dispatch, {}, '', loadUser);
   useEffect(() => {
     if (route.params?.image) {
       setAvatar(route.params?.image);

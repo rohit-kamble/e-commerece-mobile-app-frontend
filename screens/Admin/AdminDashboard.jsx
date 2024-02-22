@@ -4,12 +4,20 @@ import { defaultStyle, colors } from '../../styles/styles';
 import Loader from '../../components/Loader';
 import ButtonBox from '../../components/ButtonBox';
 import ProductListHeading from '../../components/ProductListHeading';
-import { products } from '../Home';
+// import { products } from '../Home';
 import ProductListItem from '../../components/ProductListItem';
 import Chart from '../../components/Chart';
-
+import { useAdminProducts, useMessageAndErrorFromOther } from '../../utils/customHook';
+import { useDispatch } from 'react-redux';
+import { useIsFocused } from '@react-navigation/native';
+import { deleteProduct } from '../../redux/action/otherAction.js';
+import { getAdminProducts } from '../../redux/action/productActions.js';
+// const products = [];
 export default function AdminDashboard({ navigation }) {
-  const loading = false;
+  // const loading = false;
+  const isFocused = useIsFocused();
+  const dispatch = useDispatch();
+  const { products, inStock, outOfStock, loading } = useAdminProducts(dispatch, isFocused);
   const navigationHandler = (text) => {
     switch (text) {
       case 'Category':
@@ -26,13 +34,20 @@ export default function AdminDashboard({ navigation }) {
     }
   };
   const deleteHandler = (id) => {
-    // console.log('id deleted item', id);
+    console.log('id--', id);
+    dispatch(deleteProduct(id));
   };
+  const { loading: loadingDelete } = useMessageAndErrorFromOther(
+    dispatch,
+    null,
+    null,
+    getAdminProducts
+  );
   return (
     <View style={defaultStyle}>
       <Header isBack={true} />
       <View style={{ paddingTop: 70, marginBottom: 20 }}>
-        <Text style={styles.heading}>Admin Pannel</Text>
+        <Text style={styles.heading}>Admin Panel</Text>
       </View>
       {loading ? (
         <Loader />
@@ -47,7 +62,7 @@ export default function AdminDashboard({ navigation }) {
               display: 'flex',
             }}
           >
-            <Chart inStock={12} outOfStock={3} />
+            <Chart inStock={inStock} outOfStock={outOfStock} />
           </View>
           <View>
             <View
@@ -73,22 +88,23 @@ export default function AdminDashboard({ navigation }) {
                 justifyContent: 'space-evenly',
               }}
             >
-              {products.map((item, index) => {
-                return (
-                  <ProductListItem
-                    navigation={navigation}
-                    deleteHandler={deleteHandler}
-                    key={item._id}
-                    i={index}
-                    price={item.price}
-                    stock={item.stock}
-                    name={item.name}
-                    category={item.category}
-                    imgSrc={item.imgSrc[0].url}
-                    id={item._id}
-                  />
-                );
-              })}
+              {!loadingDelete &&
+                products.map((item, index) => {
+                  return (
+                    <ProductListItem
+                      navigation={navigation}
+                      deleteHandler={deleteHandler}
+                      key={item?._id}
+                      i={index}
+                      price={item?.price}
+                      stock={item?.stock}
+                      name={item?.name}
+                      category={item?.category}
+                      imgSrc={item.images[0]?.url}
+                      id={item?._id}
+                    />
+                  );
+                })}
             </View>
           </ScrollView>
         </>

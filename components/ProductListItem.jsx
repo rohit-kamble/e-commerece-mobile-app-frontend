@@ -19,8 +19,8 @@ export default function ProductListItem({
     <>
       <TouchableOpacity
         activeOpacity={0.9}
-        onLongPress={() => deleteHandler(id)}
-        onPress={() => setOpenModal((prev) => !prev)}
+        onLongPress={() => setOpenModal((prev) => !prev)}
+        onPress={() => navigation.navigate('productdetails', { id })}
       >
         <View
           style={{

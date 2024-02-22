@@ -3,36 +3,26 @@ import { defaultStyle, colors } from '../../styles/styles';
 import Header from '../../components/Header';
 import Loader from '../../components/Loader';
 import OrderItem from '../../components/OrderItem';
-const orders = [
-  {
-    _id: 'ss',
-    shippingInfo: {
-      address: 'b/2 paritosh',
-      city: 'ambernath',
-      country: 'india',
-    },
-    createdAt: 'jdknjld',
-    orderStatus: 'processing',
-    paymentMethod: 'COD',
-    totalAmount: 20000,
-  },
-  {
-    _id: 'ss2',
-    shippingInfo: {
-      address: 'b/2 paritosh',
-      city: 'ambernath',
-      country: 'india',
-    },
-    createdAt: 'jdknjld',
-    orderStatus: 'processing',
-    paymentMethod: 'COD',
-    totalAmount: 20000,
-  },
-];
-export default function AdminOrder() {
-  const loading = false;
-  const processOrderLoading = true;
-  const updateHandler = () => {};
+import { useIsFocused } from '@react-navigation/native';
+import { useGetOrders, useMessageAndErrorFromOther } from '../../utils/customHook';
+import { Headline } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
+import { processOrder } from '../../redux/action/otherAction.js';
+
+export default function AdminOrder({ navigation }) {
+  // const processOrderLoading = true;
+  const isFocused = useIsFocused();
+  const dispatch = useDispatch();
+  const { loading, orders } = useGetOrders(isFocused, true);
+  const { loading: processOrderLoading } = useMessageAndErrorFromOther(
+    dispatch,
+    navigation,
+    'profile'
+  );
+  const updateHandler = (id) => {
+    // console.log('id==', id);
+    dispatch(processOrder(id));
+  };
   return (
     <View style={{ ...defaultStyle, backgroundColor: colors.colors5 }}>
       <Header isBack={true} />

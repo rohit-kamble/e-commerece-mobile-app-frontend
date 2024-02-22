@@ -4,16 +4,39 @@ import Header from '../../components/Header';
 import { useState, useEffect } from 'react';
 import ImageCard from '../../components/ImageCard';
 import { Avatar, Button } from 'react-native-paper';
+import { useMessageAndErrorFromOther } from '../../utils/customHook';
+import { useDispatch } from 'react-redux';
+import mime from 'mime';
+import {
+  deleteProductImages,
+  updateProduct,
+  updateProductImages,
+} from '../../redux/action/otherAction';
 
 export default function Productimage({ route, navigation }) {
   // const [iimages, setImages] = useState([])
+  // console.log('route--', route);
   const [images] = useState(route.params.images);
   const [productId] = useState(route.params.id);
+
   const [image, setImage] = useState(null);
   const [imageChanged, setImageChanged] = useState(false);
-  const submitHandler = () => {};
-  const deleteHandler = () => {};
-  const loading = false;
+  const dispatch = useDispatch();
+  const { loading } = useMessageAndErrorFromOther(dispatch, navigation, 'adminpannel');
+  const submitHandler = () => {
+    const myForm = new FormData();
+    myForm.append('file', {
+      uri: image,
+      type: mime.getType(image),
+      name: image.split('/').pop(),
+    });
+    dispatch(updateProductImages(productId, myForm));
+  };
+  const deleteHandler = (id) => {
+    console.log('id', id, productId);
+    dispatch(deleteProductImages(productId, id));
+  };
+
   useEffect(() => {
     if (route.params?.image) {
       setImage(route.params?.image);
