@@ -16,7 +16,7 @@ export default function ProductListItem({
 }) {
   const [openModal, setOpenModal] = useState('');
   return (
-    <>
+    <View>
       <TouchableOpacity
         activeOpacity={0.9}
         onLongPress={() => setOpenModal((prev) => !prev)}
@@ -84,7 +84,7 @@ export default function ProductListItem({
           setOpenModal={setOpenModal}
         />
       )}
-    </>
+    </View>
   );
 }
 

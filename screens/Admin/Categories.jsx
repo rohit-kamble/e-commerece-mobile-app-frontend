@@ -4,7 +4,7 @@ import Header from '../../components/Header';
 import CategoryCard from '../../components/CategoryCard';
 import { TextInput, Button } from 'react-native-paper';
 import { useState } from 'react';
-import { useMessageAndErrorFromOther, useSetCategories } from '../../utils/customHook';
+import { useMessageAndErrorFromOther, useSetCategories } from '../../utils/customHook.js';
 import { useIsFocused } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { addCategory, deleteCategory } from '../../redux/action/otherAction';
@@ -15,7 +15,12 @@ export default function Categories({ navigation }) {
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   useSetCategories(setCategories, isFocused);
-  const { loading } = useMessageAndErrorFromOther(dispatch, navigation, 'adminpannel');
+  // console.log('navigation', navigation);
+  const { loading } = useMessageAndErrorFromOther({
+    dispatch,
+    navigation,
+    navigateTo: 'adminpannel',
+  });
   const deleteHandler = (id) => {
     dispatch(deleteCategory(id));
     // console.log('call');

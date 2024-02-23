@@ -7,17 +7,17 @@ import ProductListHeading from '../../components/ProductListHeading';
 // import { products } from '../Home';
 import ProductListItem from '../../components/ProductListItem';
 import Chart from '../../components/Chart';
-import { useAdminProducts, useMessageAndErrorFromOther } from '../../utils/customHook';
+import { useAdminProducts, useMessageAndErrorFromOther } from '../../utils/customHook.js';
 import { useDispatch } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
 import { deleteProduct } from '../../redux/action/otherAction.js';
 import { getAdminProducts } from '../../redux/action/productActions.js';
-// const products = [];
+const products = [];
 export default function AdminDashboard({ navigation }) {
   // const loading = false;
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
-  const { products, inStock, outOfStock, loading } = useAdminProducts(dispatch, isFocused);
+
   const navigationHandler = (text) => {
     switch (text) {
       case 'Category':
@@ -34,7 +34,7 @@ export default function AdminDashboard({ navigation }) {
     }
   };
   const deleteHandler = (id) => {
-    console.log('id--', id);
+    // console.log('id--', id);
     dispatch(deleteProduct(id));
   };
   const { loading: loadingDelete } = useMessageAndErrorFromOther(
@@ -43,6 +43,8 @@ export default function AdminDashboard({ navigation }) {
     null,
     getAdminProducts
   );
+
+  const { products, inStock, outOfStock, loading } = useAdminProducts(dispatch, isFocused);
   return (
     <View style={defaultStyle}>
       <Header isBack={true} />
@@ -62,7 +64,7 @@ export default function AdminDashboard({ navigation }) {
               display: 'flex',
             }}
           >
-            <Chart inStock={inStock} outOfStock={outOfStock} />
+            <Chart inStock={inStock || 0} outOfStock={outOfStock || 0} />
           </View>
           <View>
             <View
@@ -99,7 +101,7 @@ export default function AdminDashboard({ navigation }) {
                       price={item?.price}
                       stock={item?.stock}
                       name={item?.name}
-                      category={item?.category}
+                      category={item?.category?.category}
                       imgSrc={item.images[0]?.url}
                       id={item?._id}
                     />

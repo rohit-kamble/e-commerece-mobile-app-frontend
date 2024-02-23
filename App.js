@@ -12,7 +12,7 @@ export default function App() {
         backgroundColor: '#fff',
         timeout: 5,
       }}
-      merchantIdentifier="rohit kamble"
+      merchantIdentifier="merchant.com.rohitkamble"
       publishableKey={stripeKey}
     >
       <Provider store={store}>

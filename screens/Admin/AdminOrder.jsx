@@ -14,11 +14,11 @@ export default function AdminOrder({ navigation }) {
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const { loading, orders } = useGetOrders(isFocused, true);
-  const { loading: processOrderLoading } = useMessageAndErrorFromOther(
+  const { loading: processOrderLoading } = useMessageAndErrorFromOther({
     dispatch,
     navigation,
-    'profile'
-  );
+    navigateTo: 'profile',
+  });
   const updateHandler = (id) => {
     // console.log('id==', id);
     dispatch(processOrder(id));

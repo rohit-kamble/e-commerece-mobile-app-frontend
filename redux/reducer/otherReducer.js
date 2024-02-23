@@ -133,6 +133,28 @@ export const otherReducer = createReducer({ loading: false }, (builder) => {
     .addCase('deleteProductFail', (state, action) => {
       state.loading = false;
       state.error = action.payload;
+    })
+    .addCase('forgotPasswordRequest', (state) => {
+      state.loading = true;
+    })
+    .addCase('forgotPasswordSuccess', (state, action) => {
+      state.loading = false;
+      state.message = action.payload;
+    })
+    .addCase('forgotPasswordFail', (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+    .addCase('resetPasswordRequest', (state) => {
+      state.loading = true;
+    })
+    .addCase('resetPasswordSuccess', (state, action) => {
+      state.loading = false;
+      state.message = action.payload;
+    })
+    .addCase('resetPasswordFail', (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
     });
   builder.addCase('clearError', (state) => {
     state.error = null;

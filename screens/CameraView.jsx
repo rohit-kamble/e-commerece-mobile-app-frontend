@@ -12,7 +12,7 @@ export default function CamerView({ navigation, route }) {
   const [cameras, setCamera] = useState(null);
 
   const { product } = useSelector((state) => state.products);
-  console.log('cameravire==', product);
+  // console.log('cameravire==', product);
   const openImagePicker = async () => {
     const permissionResult = await imagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted === false) return alert('Permisson to access gallery is required');

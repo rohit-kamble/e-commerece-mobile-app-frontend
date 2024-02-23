@@ -42,7 +42,11 @@ export default function NewProduct({ navigation, route }) {
     if (categoryId) myForm.append('category', categoryId);
     dispatch(createProduct(myForm));
   };
-  const { loading } = useMessageAndErrorFromOther(dispatch, navigation, 'adminpannel');
+  const { loading } = useMessageAndErrorFromOther({
+    dispatch,
+    navigation,
+    navigateTo: 'adminpannel',
+  });
 
   // const loading = false;
   //   const otherLoading = true;

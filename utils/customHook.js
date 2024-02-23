@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 import { loadUser } from '../redux/action/userAction.js';
 import axios from 'axios';
 import { server } from '../redux/store.js';
-import { useScrollToTop } from '@react-navigation/native';
 import { useState } from 'react';
 import { getAdminProducts } from '../redux/action/productActions.js';
 
@@ -39,29 +38,37 @@ export const useMessageAndErrorFromUser = (navigation, navigateTo = 'login', dis
   return { loading };
 };
 
-export const useMessageAndErrorFromOther = (dispatch, navigation, navigateTo = 'login', fun) => {
+export const useMessageAndErrorFromOther = ({
+  dispatch,
+  navigation,
+  navigateTo = 'login',
+  fun,
+}) => {
   const { loading, message, error } = useSelector((state) => state.other);
   // console.log('navigateTo before==', message, error);
   useEffect(() => {
     if (error) {
-      dispatch({
-        type: 'clearError',
-      });
+      dispatch &&
+        dispatch({
+          type: 'clearError',
+        });
       Toast.show({
         type: 'error',
         text1: error,
       });
     }
     if (message) {
+      dispatch &&
+        dispatch({
+          type: 'clearMessage',
+        });
       Toast.show({
         type: 'success',
         text1: message,
       });
-      dispatch({
-        type: 'clearMessage',
-      });
-      // console.log('navigateTo after==', navigateTo, navigation, message, dispatch);
-      navigateTo && navigation.navigate(navigateTo);
+
+      console.log('navigateTo after==', navigateTo, navigation, message, dispatch);
+      navigateTo && navigation && navigation.navigate(navigateTo);
 
       fun && dispatch(fun());
     }

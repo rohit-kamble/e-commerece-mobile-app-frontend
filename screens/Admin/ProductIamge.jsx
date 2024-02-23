@@ -33,7 +33,7 @@ export default function Productimage({ route, navigation }) {
     dispatch(updateProductImages(productId, myForm));
   };
   const deleteHandler = (id) => {
-    console.log('id', id, productId);
+    // console.log('id', id, productId);
     dispatch(deleteProductImages(productId, id));
   };
 

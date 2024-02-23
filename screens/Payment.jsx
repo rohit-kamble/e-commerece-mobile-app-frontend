@@ -64,24 +64,23 @@ export default function Payment({ navigation, route }) {
           withCredentials: true,
         }
       );
+      console.log('--', client_secret);
       const init = await stripe.initPaymentSheet({
         paymentIntentClientSecret: client_secret,
-        merchantDisplayName: 'rohit kamble',
+        merchantDisplayName: 'merchant.com.rohitkamble',
         customFlow: true,
-
-        // allowsDelayedPaymentMethods: true,
       });
       if (init.error) {
         return Toast.show({
           type: 'error',
-          text1: init.error.message,
+          text1: init.error,
         });
       }
       const presentSheet = await stripe.presentPaymentSheet();
       console.log('****', presentSheet);
       setLoaderLoading(true);
       if (presentSheet.error) {
-        console.log('cancel in ', presentSheet, client_secret);
+        // console.log('cancel in ', presentSheet, client_secret);
         setLoaderLoading(false);
         return Toast.show({
           type: 'error',
@@ -103,9 +102,14 @@ export default function Payment({ navigation, route }) {
     }
   };
 
-  const { loading } = useMessageAndErrorFromOther(dispatch, navigation, 'profile', () => ({
-    type: 'clearCart',
-  }));
+  const { loading } = useMessageAndErrorFromOther({
+    dispatch,
+    navigation,
+    navigateTo: 'profile',
+    fun: () => ({
+      type: 'clearCart',
+    }),
+  });
   return loaderLoading ? (
     <Loader />
   ) : (

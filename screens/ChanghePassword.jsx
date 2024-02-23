@@ -13,7 +13,11 @@ export default function ChanghePassword({ navigation }) {
   const [newPassword, setNewPassWord] = useState('');
   // const loading = true;
   const dispatch = useDispatch();
-  const { loading } = useMessageAndErrorFromOther(dispatch, navigation, 'profile', fun);
+  const { loading } = useMessageAndErrorFromOther({
+    dispatch,
+    navigation,
+    navigateTo: 'profile',
+  });
 
   const submitHandler = () => {
     dispatch(updatePassword(oldPassword, newPassword));

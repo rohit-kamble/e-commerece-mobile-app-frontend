@@ -18,8 +18,8 @@ export const productReducer = createReducer({ products: [], product: {} }, (buil
     })
     .addCase('getAdminProductSuccess', (state, action) => {
       state.loading = false;
-      state.products = action.payload;
-      state.inStock = action.payload.inStock;
+      state.products = action.payload.products;
+      state.inStock = action.payload.isStock;
       state.outOfStock = action.payload.outOfStock;
     })
     .addCase('getProductDetailsSuccess', (state, action) => {
@@ -60,6 +60,7 @@ export const productReducer = createReducer({ products: [], product: {} }, (buil
   //   state.loading = false;
   //   state.error = action.payload;
   // });
+
   builder.addCase('clearError', (state) => {
     state.error = null;
   });

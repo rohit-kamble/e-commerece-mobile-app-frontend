@@ -23,15 +23,12 @@ export const getAllProducts =
       });
     }
   };
-export const getAdminProducts = (formData) => async (dispatch) => {
+export const getAdminProducts = () => async (dispatch) => {
   try {
     dispatch({
       type: 'getAdminProductRequest',
     });
-    const { data } = await axios.put(`${server}/product/admin`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+    const { data } = await axios.get(`${server}/product/admin`, {
       withCredentials: true,
     });
     dispatch({
@@ -41,7 +38,7 @@ export const getAdminProducts = (formData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: 'getAdminProductFail',
-      payload: error.response.data.message,
+      payload: error.response?.data?.message,
     });
   }
 };

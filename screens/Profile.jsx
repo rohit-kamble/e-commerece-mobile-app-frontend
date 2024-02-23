@@ -62,11 +62,12 @@ export default function Profile({ navigation, route }) {
     }
     dispatch(loadUser());
   }, [route.params, dispatch, isFoucs]);
+
   return (
     <>
       <View style={defaultStyle}>
         <View style={{ marginBottom: 20 }}>
-          <Text style={styles.heading}>Sign Up</Text>
+          <Text style={styles.heading}>Profile</Text>
         </View>
         {user && user.name && loading ? (
           <Loader />

@@ -213,11 +213,11 @@ export const createProduct = (formData) => async (dispatch) => {
     });
     dispatch({
       type: 'addProductSuccess',
-      payload: data.message,
+      payload: data.products,
     });
   } catch (error) {
     dispatch({
-      type: 'addProducteFail',
+      type: 'addProductFail',
       payload: error.response.data.message,
     });
   }
@@ -296,6 +296,7 @@ export const deleteProductImages = (productId, imageId) => async (dispatch) => {
 };
 
 export const deleteProduct = (productId) => async (dispatch) => {
+  // console.log('delete-product -id', productId);
   try {
     dispatch({
       type: 'deleteProductRequest',
@@ -306,12 +307,68 @@ export const deleteProduct = (productId) => async (dispatch) => {
 
     dispatch({
       type: 'deleteProductSuccess',
+      payload: data.products,
+    });
+  } catch (error) {
+    // console.log('errot', error);
+    dispatch({
+      type: 'deleteProductFail',
+      payload: error.response?.data?.message || 'something wrong',
+    });
+  }
+};
+
+export const forgotPassword = (email) => async (dispatch) => {
+  try {
+    dispatch({
+      type: 'forgotPasswordRequest',
+    });
+    const { data } = await axios.post(
+      `${server}/user/forgot-password`,
+      { email },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      }
+    );
+
+    dispatch({
+      type: 'forgotPasswordSuccess',
       payload: data.message,
     });
   } catch (error) {
-    console.log('errot', error);
     dispatch({
-      type: 'deleteProductFail',
+      type: 'forgotPasswordFail',
+      payload: error.response?.data?.message || 'something wrong',
+    });
+  }
+};
+
+export const resetPassword = (otp, password) => async (dispatch) => {
+  try {
+    dispatch({
+      type: 'resetPasswordRequest',
+    });
+    const { data } = await axios.put(
+      `${server}/user/forgot-password`,
+      { otp, password },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      }
+    );
+
+    dispatch({
+      type: 'resetPasswordSuccess',
+      payload: data.message,
+    });
+  } catch (error) {
+    dispatch({
+      type: 'resetPasswordFail',
       payload: error.response?.data?.message || 'something wrong',
     });
   }
